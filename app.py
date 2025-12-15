@@ -2,6 +2,7 @@ from flask import Flask, request, redirect, url_for, session
 from flask_sqlalchemy import SQLAlchemy
 import hashlib 
 import os
+import os # <-- ต้องมี
 import sys
 
 # 1. การตั้งค่า Flask และฐานข้อมูล
