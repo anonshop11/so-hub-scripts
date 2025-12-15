@@ -6,10 +6,10 @@ import sys
 
 # 1. การตั้งค่า Flask และฐานข้อมูล
 app = Flask(__name__)
-# ใช้ Environment Variable สำหรับ Secret Key (Production) หรือค่าเริ่มต้น (Development)
-app.secret_key = os.environ.get('SECRET_KEY', 'ekfwofkoekfwok0002301232ofe[w[afsfafaffaf]]') 
+# ใช้ Environment Variable สำหรับ Secret Key (Production)
+app.secret_key = os.environ.get('SECRET_KEY', 'default_fallback_secret_key_12345') 
 
-# 🟢 บรรทัดที่ถูกแก้ไข: ดึง URL และปรับแก้ให้เข้ากับ Render/SQLAlchemy
+# 🟢 บรรทัดสำคัญ: ดึง URL และปรับแก้ให้เข้ากับ Render/SQLAlchemy
 DATABASE_URL = os.environ.get('DATABASE_URL', 'sqlite:///users.db')
 
 # ปรับแก้ URL จาก 'postgres://' เป็น 'postgresql+psycopg2://' เพื่อให้ Render ใช้งานได้
@@ -34,13 +34,19 @@ def hash_password(password):
     return hashlib.sha256(password.encode('utf-8')).hexdigest()
 
 with app.app_context():
-    db.create_all()
+    # สร้างตารางฐานข้อมูล หากยังไม่มี
+    try:
+        db.create_all()
+    except Exception as e:
+        # พิมพ์ข้อผิดพลาดฐานข้อมูลหากมีปัญหาในการสร้างตาราง
+        print(f"Error during db.create_all(): {e}", file=sys.stderr)
 
 
 # 9. ฟังก์ชันช่วยในการอ่านไฟล์ HTML และแทนที่ตัวแปร
 def read_html_file(filename, **kwargs):
     """อ่านเนื้อหา HTML และแทนที่ตัวแปรที่ส่งมา"""
-    base_dir = os.path.dirname(sys.argv[0])
+    # 🟢 ปรับแก้การหา path: ใช้ os.path.abspath เพื่อให้แน่ใจว่าหาไฟล์เจอ
+    base_dir = os.path.dirname(os.path.abspath(__file__))
     filepath = os.path.join(base_dir, filename)
     
     try:
@@ -51,17 +57,18 @@ def read_html_file(filename, **kwargs):
                 html_content = html_content.replace(f'{{{{ {key} }}}}', str(value))
             return html_content
     except FileNotFoundError:
-        return f"<h1>Error: File {filename} not found.</h1><p>โปรดตรวจสอบว่าไฟล์ HTML อยู่ในไดเรกทอรีเดียวกับ app.py</p>"
+        # หากไม่พบไฟล์ ให้ส่งข้อความแจ้งเตือนที่ชัดเจนกลับไป
+        error_msg = f"<h1>Error: File {filename} not found.</h1><p>โปรดตรวจสอบว่าไฟล์ HTML ทั้งหมดอยู่ในโฟลเดอร์เดียวกับ app.py และถูกอัปโหลดขึ้น GitHub แล้ว</p>"
+        print(error_msg, file=sys.stderr)
+        return error_msg
 
 
 # 3. กำหนดเส้นทาง (Routes)
 @app.route('/')
 def index():
     if 'username' in session:
-        # หากเข้าสู่ระบบแล้ว: แสดงหน้า dashboard.html
         return read_html_file('dashboard.html', username=session['username'])
             
-    # 👇 เปลี่ยนจาก 'index.html' เป็น 'landing.html'
     return read_html_file('landing.html')
 
 
@@ -77,21 +84,19 @@ def register():
     password = request.form.get('password')
     confirm_password = request.form.get('confirm_password')
 
-    if not username or not password or not confirm_password:
-        return read_html_file('register.html').replace('<h2>สมัครสมาชิก</h2>', '<h2>กรุณากรอกข้อมูลให้ครบทุกช่อง</h2>')
-
     if password != confirm_password:
         return read_html_file('register.html').replace('<h2>สมัครสมาชิก</h2>', '<h2>รหัสผ่านไม่ตรงกัน กรุณาลองใหม่</h2>')
 
-    existing_user = User.query.filter_by(username=username).first()
-    if existing_user:
-        return read_html_file('register.html').replace('<h2>สมัครสมาชิก</h2>', '<h2>ชื่อผู้ใช้นี้มีผู้ใช้งานแล้ว</h2>')
-    
-    hashed_pass = hash_password(password)
-    
-    new_user = User(username=username, password_hash=hashed_pass)
-    db.session.add(new_user)
-    db.session.commit()
+    with app.app_context():
+        existing_user = User.query.filter_by(username=username).first()
+        if existing_user:
+            return read_html_file('register.html').replace('<h2>สมัครสมาชิก</h2>', '<h2>ชื่อผู้ใช้นี้มีผู้ใช้งานแล้ว</h2>')
+        
+        hashed_pass = hash_password(password)
+        
+        new_user = User(username=username, password_hash=hashed_pass)
+        db.session.add(new_user)
+        db.session.commit()
 
     return redirect(url_for('show_login'))
 
@@ -106,7 +111,8 @@ def login():
     username = request.form.get('username')
     password = request.form.get('password')
     
-    user = User.query.filter_by(username=username).first()
+    with app.app_context():
+        user = User.query.filter_by(username=username).first()
 
     if user and user.password_hash == hash_password(password):
         session['username'] = user.username 
