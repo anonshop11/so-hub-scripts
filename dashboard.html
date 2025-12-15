@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <title>SO HUB | ศูนย์รวมสคริปต์พรีเมียม</title>
+    <style>
+        /* CSS KEYFRAMES: Floating Background Text */
+        @keyframes floatingText {
+            0% { transform: translate(-50%, -50%); } 
+            25% { transform: translate(-30%, -70%); } 
+            50% { transform: translate(-70%, -30%); } 
+            75% { transform: translate(-30%, -30%); } 
+            100% { transform: translate(-50%, -50%); } 
+        }
+
+        /* Base Styles */
+        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; margin: 0; color: #ecf0f1; background-color: #0d0d0d; min-height: 100vh; display: flex; flex-direction: column; align-items: center; position: relative; overflow-x: hidden; }
+
+        /* FLOATING BACKGROUND TEXT (Cool and Subtle) */
+        .floating-hub { position: fixed; top: 50%; left: 50%; font-size: 25em; font-weight: 900; color: rgba(0, 188, 212, 0.01); pointer-events: none; user-select: none; z-index: 0; animation: floatingText 40s infinite alternate ease-in-out; opacity: 0.4; }
+        
+        /* Header Area (Banner) */
+        header { width: 100%; max-width: 1200px; padding: 40px 20px; margin-bottom: 40px; background-color: #1a1a1a; border-radius: 0 0 15px 15px; box-shadow: 0 8px 20px rgba(0, 0, 0, 0.6); text-align: center; z-index: 10; }
+        
+        /* Neon Glow Effect */
+        h1 { color: #00bcd4; font-size: 4.5em; margin-bottom: 5px; text-shadow: 0 0 12px rgba(0, 188, 212, 0.8), 0 0 25px rgba(0, 188, 212, 0.5); font-weight: 800; }
+        .user-info { font-size: 1.7em; color: #4caf50; margin-top: 10px; font-weight: 600; }
+        
+        /* Main Content Container - GRID */
+        .content-container { width: 100%; max-width: 1200px; padding: 20px; box-sizing: border-box; display: grid; grid-template-columns: repeat(auto-fill, minmax(350px, 1fr)); gap: 35px; z-index: 10; }
+
+        /* Game Card Styling (V3 Refinement) */
+        .game-card { background-color: #1e1e1e; border-radius: 12px; box-shadow: 0 6px 18px rgba(0, 0, 0, 0.85); padding: 25px; border: 1px solid #333; border-top: 5px solid #ff9800; transition: transform 0.3s, box-shadow 0.3s; }
+        .game-card:hover { transform: translateY(-7px); box-shadow: 0 12px 30px rgba(0, 0, 0, 0.95); }
+
+        .game-info { display: flex; align-items: center; margin-bottom: 25px; padding-bottom: 15px; border-bottom: 1px solid #444; }
+
+        /* Icon */
+        .h3-icon { background-color: #ff9800; color: #1e1e1e; border-radius: 50%; width: 45px; height: 45px; display: flex; align-items: center; justify-content: center; font-size: 1.2em; font-weight: bold; margin-right: 15px; box-shadow: 0 0 8px rgba(255, 152, 0, 0.8); }
+        
+        .game-info h3 { margin: 0; color: #ffeb3b; font-size: 1.6em; text-shadow: 0 0 5px rgba(255, 235, 59, 0.3); }
+
+        /* Script Item Box */
+        .script-item { background-color: #282828; margin: 15px 0; padding: 18px; border-radius: 10px; border-left: 5px solid #00bcd4; box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.3); }
+
+        .script-item h4 { margin-top: 0; color: #d1d1d1; font-size: 1.1em; font-weight: 600; }
+        .script-description { color: #b0b0b0; font-size: 0.95em; margin-top: 5px; }
+        
+        /* Code Box */
+        .code-box { width: 100%; height: 90px; background-color: #000000; color: #39ff14; border: 1px solid #00a0b0; border-radius: 6px; padding: 10px; box-sizing: border-box; resize: vertical; font-family: 'Consolas', 'Courier New', monospace; font-size: 0.9em; margin-top: 10px; box-shadow: inset 0 0 5px rgba(0, 0, 0, 0.8); }
+
+        /* Copy Button */
+        .copy-btn { display: block; width: 100%; padding: 12px; margin-top: 15px; background-color: #00bcd4; color: white; border: none; border-radius: 8px; font-weight: bold; cursor: pointer; transition: background-color 0.3s, transform 0.2s; }
+        .copy-btn:hover { background-color: #0090a0; transform: translateY(-2px); }
+
+        /* Logout Link */
+        .logout-link { text-align: center; margin: 60px 0; z-index: 10; }
+        .logout-link a { color: #f44336; text-decoration: none; font-weight: bold; font-size: 1.3em; padding: 10px 20px; border: 2px solid #f44336; border-radius: 5px; transition: background-color 0.3s, color 0.3s; }
+        .logout-link a:hover { background-color: #f44336; color: #fff; }
+        
+        /* Responsive */
+        @media (max-width: 800px) {
+            .content-container { grid-template-columns: 1fr; gap: 20px; }
+            h1 { font-size: 3em; }
+            .user-info { font-size: 1.3em; }
+            .floating-hub { font-size: 10em; }
+        }
+    </style>
+</head>
+<body>
+    
+    <div class="floating-hub">SO HUB</div>
+    
+    <header>
+        <h1>SO HUB</h1>
+        <div class="user-info">ยินดีต้อนรับ, **{{ username }}**! คัดลอกสคริปต์ได้เลย</div>
+    </header>
+
+    <div class="content-container">
+        <div class="game-card">
+            <div class="game-info">
+                <div class="h3-icon">RB</div>
+                <h3>Real Brutality🔥</h3> 
+            </div>
+            
+            <div class="script-item">
+                <h4>Script: Aimbot Pro V5</h4>
+                <p class="script-description"></p>
+                <textarea id="rb_script1" class="code-box" readonly>
+-- Soon ....
+                </textarea>
+                <button class="copy-btn" onclick="copyCode('rb_script1', this)">คัดลอกสคริปต์</button>
+            </div>
+
+            <div class="script-item">
+                <h4>Script: Kids House Teleport</h4>
+                <p class="script-description"></p>
+                <textarea id="rb_script2" class="code-box" readonly>
+-- Soon ....
+                </textarea>
+                <button class="copy-btn" onclick="copyCode('rb_script2', this)">คัดลอกสคริปต์</button>
+            </div>
+        </div>
+        
+        <div class="game-card">
+            <div class="game-info">
+                <div class="h3-icon">FS</div>
+                <h3>Fusion Shorts | RormRuamKhaSan</h3>
+            </div>
+            
+            <div class="script-item">
+                <h4>Script: Fast Loot & Auto Repair</h4>
+                <p class="script-description"></p>
+                <textarea id="fs_script1" class="code-box" readonly>
+--Soon ....
+                </textarea>
+                <button class="copy-btn" onclick="copyCode('fs_script1', this)">คัดลอกสคริปต์</button>
+            </div>
+            
+        </div>
+
+        <div class="game-card">
+            <div class="game-info">
+                <div class="h3-icon">MMO</div>
+                <h3>MMO Global Battle (ตัวอย่าง)</h3>
+            </div>
+            
+            <div class="script-item">
+                <h4>Script: God Mode (V2025)</h4>
+                <p class="script-description"></p>
+                <textarea id="mmo_script1" class="code-box" readonly>
+-- Soon ....
+                </textarea>
+                <button class="copy-btn" onclick="copyCode('mmo_script1', this)">คัดลอกสคริปต์</button>
+            </div>
+            
+        </div>
+        
+    </div>
+    <div class="logout-link">
+        <a href="/logout">ออกจากระบบ</a>
+    </div>
+
+    <script>
+        function copyCode(textAreaId, buttonElement) {
+            const copyText = document.getElementById(textAreaId);
+            
+            copyText.select();
+            copyText.setSelectionRange(0, 99999);
+            
+            navigator.clipboard.writeText(copyText.value).then(() => {
+                const originalText = buttonElement.textContent;
+                
+                buttonElement.textContent = 'คัดลอกสำเร็จ!';
+                buttonElement.style.backgroundColor = '#ff9800'; 
+                buttonElement.style.transform = 'translateY(0)';
+                
+                setTimeout(() => {
+                    buttonElement.textContent = originalText;
+                    buttonElement.style.backgroundColor = '#00bcd4'; 
+                }, 2000);
+            }).catch(err => {
+                console.error('ไม่สามารถคัดลอกได้:', err);
+                alert('ไม่สามารถคัดลอกได้ กรุณาลองใหม่');
+            });
+        }
+    </script>
+    
+</body>
+</html>

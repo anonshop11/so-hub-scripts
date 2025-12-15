@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <title>SO HUB | เว็บไซต์แจกสคริปต์เกมพรีเมียม</title>
+    <style>
+        /* Base Styles: Darker & Modern */
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #0a0a0a 0%, #171717 100%);
+            color: #ecf0f1;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+            text-align: center;
+        }
+        .landing-box {
+            background-color: #1e1e1e; 
+            padding: 70px 50px; 
+            border-radius: 18px; 
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.9), 0 0 5px rgba(255, 255, 255, 0.1); 
+            border: 1px solid rgba(0, 188, 212, 0.1); 
+            max-width: 650px;
+            width: 90%;
+            animation: fadeIn 1s ease-out;
+        }
+        h1 {
+            color: #00bcd4; 
+            font-size: 5em; 
+            margin-bottom: 5px;
+            text-shadow: 0 0 20px rgba(0, 188, 212, 0.9), 0 0 40px rgba(0, 188, 212, 0.4); 
+            font-weight: 900;
+            letter-spacing: 2px;
+        }
+        p.tagline {
+            font-size: 2em; 
+            color: #4caf50;
+            margin-top: 0;
+            margin-bottom: 50px; 
+            font-weight: 600;
+        }
+        .button-group {
+            display: flex;
+            justify-content: center;
+            gap: 25px; 
+            margin-top: 40px;
+        }
+        .btn {
+            display: inline-block;
+            padding: 16px 35px; 
+            border: none;
+            border-radius: 10px;
+            font-size: 1.2em;
+            font-weight: bold;
+            text-decoration: none;
+            cursor: pointer;
+            transition: transform 0.3s, box-shadow 0.3s, background-color 0.3s;
+        }
+        .btn-primary {
+            background-color: #00bcd4;
+            color: #1e1e1e;
+            box-shadow: 0 6px 20px rgba(0, 188, 212, 0.6);
+        }
+        .btn-primary:hover {
+            background-color: #008fa0; 
+            transform: translateY(-4px); 
+            box-shadow: 0 8px 25px rgba(0, 188, 212, 0.8);
+        }
+        .btn-secondary {
+            background-color: #ff9800;
+            color: #1e1e1e;
+            box-shadow: 0 6px 20px rgba(255, 152, 0, 0.6);
+        }
+        .btn-secondary:hover {
+            background-color: #e68900;
+            transform: translateY(-4px);
+            box-shadow: 0 8px 25px rgba(255, 152, 0, 0.8);
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        @media (max-width: 600px) {
+            h1 { font-size: 4em; }
+            .tagline { font-size: 1.6em; }
+            .button-group { flex-direction: column; gap: 15px; }
+            .landing-box { padding: 40px 20px; }
+        }
+    </style>
+</head>
+<body>
+    <div class="landing-box">
+        <h1>SO HUB</h1>
+        <p class="tagline">ศูนย์รวมสคริปต์ฟรีสุดพรีเมี่ยม<br>สคริปดีๆที่ลงตัว SOHUB</p>
+        
+        <div class="button-group">
+            <a href="/login" class="btn btn-primary">
+                เข้าสู่ระบบ
+            </a>
+            <a href="/register" class="btn btn-secondary">
+                สมัครสมาชิก
+            </a>
+        </div>
+
+        <p style="margin-top: 40px; color: #777; font-size: 1em;">
+            
+        </p>
+    </div>
+</body>
+</html>
