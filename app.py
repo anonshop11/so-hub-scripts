@@ -1,14 +1,17 @@
 from flask import Flask, request, redirect, url_for, session
 from flask_sqlalchemy import SQLAlchemy
 import hashlib 
-import os
+import os # <-- ต้องมี
 import sys
 
 # 1. การตั้งค่า Flask และฐานข้อมูล
 app = Flask(__name__)
 # *** สำคัญ: ใช้ Environment Variable สำหรับ Secret Key ใน Production ***
-app.secret_key = os.environ.get('SECRET_KEY', 'super_secret_key_for_your_game_script_site') 
-app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///users.db' 
+app.secret_key = os.environ.get('SECRET_KEY', 'ekfwofkoekfwok0002301232ofe[w[afsfafaffaf]]') 
+
+# 🟢 โค้ดที่ได้รับการแก้ไข: ใช้ DATABASE_URL จาก Render, หรือ fallback ไปใช้ SQLite
+app.config['SQLALCHEMY_DATABASE_URI'] = os.environ.get('DATABASE_URL', 'sqlite:///users.db') 
+
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 db = SQLAlchemy(app)
 
