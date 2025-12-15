@@ -1,7 +1,8 @@
-from flask import Flask, request, redirect, url_for, session
+@@ -2,120 +2,120 @@
 from flask_sqlalchemy import SQLAlchemy
 import hashlib 
 import os
+import os # <-- ต้องมี
 import os # 
 import sys
 
@@ -38,7 +39,7 @@ def read_html_file(filename, **kwargs):
     """อ่านเนื้อหา HTML และแทนที่ตัวแปรที่ส่งมา"""
     base_dir = os.path.dirname(sys.argv[0])
     filepath = os.path.join(base_dir, filename)
-    
+
     try:
         with open(filepath, 'r', encoding='utf-8') as f:
             html_content = f.read()
@@ -56,7 +57,7 @@ def index():
     if 'username' in session:
         # หากเข้าสู่ระบบแล้ว: แสดงหน้า dashboard.html
         return read_html_file('dashboard.html', username=session['username'])
-            
+
     # 👇 เปลี่ยนจาก 'index.html' เป็น 'landing.html'
     return read_html_file('landing.html')
 
@@ -82,9 +83,9 @@ def register():
     existing_user = User.query.filter_by(username=username).first()
     if existing_user:
         return read_html_file('register.html').replace('<h2>สมัครสมาชิก</h2>', '<h2>ชื่อผู้ใช้นี้มีผู้ใช้งานแล้ว</h2>')
-    
+
     hashed_pass = hash_password(password)
-    
+
     new_user = User(username=username, password_hash=hashed_pass)
     db.session.add(new_user)
     db.session.commit()
@@ -101,7 +102,7 @@ def show_login():
 def login():
     username = request.form.get('username')
     password = request.form.get('password')
-    
+
     user = User.query.filter_by(username=username).first()
 
     if user and user.password_hash == hash_password(password):
@@ -119,4 +120,3 @@ def logout():
 # การกำหนดค่าสำหรับ Production Deployment
 if __name__ == '__main__':
     port = int(os.environ.get('PORT', 5000))
-    app.run(host='0.0.0.0', port=port, debug=False)
